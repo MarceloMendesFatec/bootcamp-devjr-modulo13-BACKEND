@@ -9,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.abutua.productbackend.models.Category;
 import com.abutua.productbackend.models.Product;
-import com.abutua.productbackend.repositories.CategoryRepository;
 import com.abutua.productbackend.repositories.ProductRepository;
 
 @Service
