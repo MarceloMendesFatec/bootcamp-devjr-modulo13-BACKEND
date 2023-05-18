@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class ProductController {
     private ProductService productService; 
 
     @PostMapping
-    public ResponseEntity<Product> save(@RequestBody Product product) {
+    public ResponseEntity<Product> save(@Validated @RequestBody Product product) {
         product = productService.save(product);
 
         URI location = ServletUriComponentsBuilder
@@ -41,7 +42,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable int id) {
+    public ResponseEntity<Product> getProduct(@PathVariable long id) {
         Product product = productService.getById(id);
         return ResponseEntity.ok(product);
     }
@@ -52,13 +53,13 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")    
-    public ResponseEntity<Void> removeProduct(@PathVariable int id) {
+    public ResponseEntity<Void> removeProduct(@PathVariable long id) {
         productService.deleteById(id);                
         return ResponseEntity.noContent().build(); 
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateProduct(@PathVariable int id, @RequestBody Product productUpdate) {
+    public ResponseEntity<Void> updateProduct(@PathVariable long id, @RequestBody Product productUpdate) {
         productService.update(id, productUpdate);
         return ResponseEntity.ok().build(); 
     }
