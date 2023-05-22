@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
- import com.abutua.productbackend.models.Product;
+import com.abutua.productbackend.DAO.ProductSaveDAO;
+import com.abutua.productbackend.models.Product;
 import com.abutua.productbackend.services.ProductService;
 
 @RestController
@@ -29,8 +30,8 @@ public class ProductController {
     private ProductService productService; 
 
     @PostMapping
-    public ResponseEntity<Product> save(@Validated @RequestBody Product product) {
-        product = productService.save(product);
+    public ResponseEntity<Product> save(@Validated @RequestBody ProductSaveDAO productSaveDAO) {
+        Product product = productService.save(productSaveDAO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

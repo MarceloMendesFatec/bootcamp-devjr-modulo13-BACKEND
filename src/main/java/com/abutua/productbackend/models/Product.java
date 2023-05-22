@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
@@ -17,24 +17,26 @@ public class Product implements Serializable {
 
     // Atributos
     // Utilizar objetos nas entidades para poder utilizar o valor null se necessario
+    //somes os constraints do banco de dados ficam na Entidade , as validacoes sao no DAO
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @NotNull(message = "O nome é obrigatório")	
+    @Column(nullable = false , length = 255)	
     private String name;
 
     @Column(nullable = false , length = 1024)
     private String description;
 
 
-    @ManyToOne
+    @ManyToOne 
     private Category category;
     
     private boolean promotion;
     private boolean newProduct;
+    
+    @Min(value=0, message = "price deve ser maior que zero")
     private Double price; // Se nao for passado o valor, vai como null , se for "double" vai como 0.0
 
     // Métodos Construtores

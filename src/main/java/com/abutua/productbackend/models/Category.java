@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import com.abutua.productbackend.DAO.CategoryDao;
 
 @Entity
 @Table(name = "TBL_CATEGORY")
@@ -16,18 +17,32 @@ public class Category {
     private Integer id;
     // Utilizar objetos nas entidades para poder utilizar o valor null se necessario
 
-    @Column(nullable = false , unique = true) 
+    @Column(nullable = false , unique = true , length = 255) 
     // nao pode ter duas categorias com o mesmo nome.
     //isso sao constraints no banco de dados.
+    
     private String name;
+
+  
+
+    public Category() {
+    }
+
+    public Category(int id) {
+        this.id = id;
+
+    }
+    
+    public Category(String name) {
+        this.name = name;
+    }
 
     public Category(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Category() {
-    }
+   
 
     public Integer getId() {
         return id;
@@ -43,6 +58,10 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public CategoryDao toDAO(){
+        return new CategoryDao(id, name);
     }
 
     @Override
@@ -73,5 +92,9 @@ public class Category {
     @Override
     public String toString() {
         return "Category [id=" + id + ", name=" + name + "]";
+    }
+
+    public Object toEntity() {
+        return null;
     }
 }
