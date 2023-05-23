@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import com.abutua.productbackend.DAO.ProductDAO;
+
 @Entity
 @Table(name = "TBL_PRODUCT")
 public class Product implements Serializable {  
@@ -148,6 +150,19 @@ public class Product implements Serializable {
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", description=" + description + ", promotion=" + promotion
                 + ", newProduct=" + newProduct + ", price=" + price + "]";
+    }
+
+    public ProductDAO toDAO() {
+        ProductDAO productDAO = new ProductDAO();
+        productDAO.setName(name);
+        productDAO.setDescription(description);
+        productDAO.setPrice(price);
+        productDAO.setCategory(category.toDAO());
+        productDAO.setNewProduct(newProduct);
+        productDAO.setPromotion(promotion);
+        productDAO.setId(id);
+
+        return productDAO;
     }
 
     

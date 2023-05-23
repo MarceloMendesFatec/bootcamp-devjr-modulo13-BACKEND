@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.abutua.productbackend.DAO.ProductDAO;
 import com.abutua.productbackend.DAO.ProductSaveDAO;
-import com.abutua.productbackend.models.Product;
 import com.abutua.productbackend.services.ProductService;
 
 @RestController
@@ -30,26 +30,26 @@ public class ProductController {
     private ProductService productService; 
 
     @PostMapping
-    public ResponseEntity<Product> save(@Validated @RequestBody ProductSaveDAO productSaveDAO) {
-        Product product = productService.save(productSaveDAO);
+    public ResponseEntity<ProductDAO> save(@Validated @RequestBody ProductSaveDAO productSaveDAO) {
+        ProductDAO productDAO = productService.save(productSaveDAO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(product.getId())
+                .buildAndExpand(productDAO.getId())
                 .toUri();
  
-        return ResponseEntity.created(location).body(product);
+        return ResponseEntity.created(location).body(productDAO);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Product product = productService.getById(id);
-        return ResponseEntity.ok(product);
+    public ResponseEntity<ProductDAO> getProduct(@PathVariable long id) {
+        ProductDAO productDAO = productService.getDAOByID(id);
+        return ResponseEntity.ok(productDAO);
     }
 
     @GetMapping  
-    public ResponseEntity<List<Product>> getProducts() { 
+    public ResponseEntity<List<ProductDAO>> getProducts() { 
         return ResponseEntity.ok(productService.getAll());
     }
 
@@ -60,8 +60,8 @@ public class ProductController {
     }
    
     @PutMapping("{id}")    
-    public ResponseEntity<Void> updateProduct(@PathVariable long id, @RequestBody Product productUpdate) {
-        productService.update(id, productUpdate);
+    public ResponseEntity<Void> updateProduct(@PathVariable long id,  @Validated @RequestBody ProductSaveDAO productSaveDAO) {
+        productService.update(id, productSaveDAO);
         return ResponseEntity.ok().build(); 
     }
     
